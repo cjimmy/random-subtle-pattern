@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+
+  "name": "Random Subtle Patterns",
+  "description": "This extension shows a new Subtle Pattern on a new tab.",
+  "version": "0.1",
+  "icons": {  "16": "icons/icon16.png",
+              "48": "icons/icon48.png",
+              "128": "icons/icon128.png" },
+  "chrome_url_overrides" : {
+    "newtab": "newtab.html"
+  }
+}

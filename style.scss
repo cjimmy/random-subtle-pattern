@@ -1,0 +1,134 @@
+/*general*/
+$maincolor: #ce4dd6;
+$default-bg-color: #fff;
+$default-opacity: 0.5;
+
+/*info pane*/
+$info_pane_width: 486px;
+$info_pane_height: 486px;
+
+/*clock*/
+$clock_width: 420px;
+$clock_height: 420px;
+
+@mixin full-screen{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+@mixin centered($el_width, $el_height) {
+	position: absolute;
+	width: $el_width;
+	height: $el_height;
+	margin-top: -$el_height/2;
+	margin-left: -$el_width/2;
+	left: 50%;
+	top: 50%;
+}
+
+body {
+	opacity:0;
+	background-color: $default-bg-color;
+	background-image: none;
+}
+
+.window {
+	opacity:0;
+	@include full-screen;
+}
+
+.invis {
+	@include full-screen;
+}
+
+
+#source {
+	width:100%;
+	position:absolute;
+	text-align: center;
+	font-family: Helvetica;
+	text-decoration: none;
+	margin: 0 auto;
+	margin-top:200px;
+	opacity: $default-opacity;
+	color: black;
+	font-size: 128px;
+	font-weight: bold;
+ 	text-shadow: 0px 3px 3px #fff;
+}
+
+
+#moreInfoBtn {
+	opacity: $default-opacity;  
+	background-color: #777;
+	font-family: 'Georgia';
+	position: fixed;
+	right:10px;
+	bottom:10px;
+	border-radius: 10px;
+
+	padding: 6px 13px;
+	font-size:15px;
+	text-decoration:none;
+
+	&:hover {
+		-webkit-transition: opacity 0.3s;
+		opacity: 0.9;
+	}
+
+	&:active {
+		border:1px #555;
+		opacity: 0.5;
+	}
+}
+
+#infoPane {
+	opacity: 0;
+	border-radius: 3px;
+	@include centered($info_pane_width, $info_pane_height);
+}
+
+
+.info {
+  font-family: Georgia, serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: lighter;
+  padding: 20px 40px 10px 100px;
+}
+	
+.info> h1 {
+	font-family: Helvetica, sans-serif;
+	font-size: 30px;
+	font-weight: bold;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 14px;
+	}
+
+.info> a {
+	color: inherit;
+	text-decoration: underline;
+
+	&:hover {
+		text-decoration:none;
+	}
+}
+
+#clock-outer{
+	@include centered($clock_width, $clock_height);
+}
+
+#clock-hour{
+	@include centered($clock_width, $clock_height);
+	-webkit-transition: all 1s;
+}
+
+#clock-min{
+	@include centered($clock_width, $clock_height);
+	-webkit-transition: all 1s; 
+
+}
+
