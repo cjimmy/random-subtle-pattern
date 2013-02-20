@@ -1,4 +1,5 @@
-random-subtle-pattern
+#Random Subtle Pattern
+*a Google Chrome extension*
 =====================
 
-chrome extension that displays a random Subtle Pattern (from subtlepatterns.com) on New Tab
+Chrome extension that displays a random [Subtle Pattern](http://subtlepatterns.com) when opening a new tab.
