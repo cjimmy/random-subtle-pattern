@@ -12,46 +12,51 @@ var sp = {
 	index: 0,
 	patternName: "",
 	patternUrl: "",
-	darkShade: "", 
-	lightShade: "", 
+	shade: "", 
+	tint: "", 
  	isPaneUp: false,
- 	minDelay: 3000,
+ 	updateDelay: 3000,
 
  	//-----------------------------------------------
 
  	init: function() {
+ 		//-- set some vars
+ 		var temp_index = 55;
  		sp.index = Math.floor(Math.random() * sp.patterns.length);
  		sp.patternName = sp.patterns[sp.index];
  		sp.patternUrl = 'http://subtlepatterns.com/patterns/' + sp.patternName;
+ 		sp.shade = sp.getShade();
+ 		sp.tint = sp.getTint();
 
- 		sp.darkShade = sp.getDarkShade();
- 		sp.lightShade =sp.getLightShade();
 
- 		sp.displayImages();
- 		$('body').append(sp.bg);
+ 		sp.displayImages(); //-- bind animation on load
+ 		$('body').append(sp.bg); //-- then load the images
 		sp.bg.attr('src', sp.patternUrl);
-		$('#moreInfoBtn').click( function(){
+
+		if(sp.index > 140) sp.changeToDark(); //-- 140 determined with 
+
+		$('#moreInfoBtn').click( function(){ //--bind click function
 			sp.setColorsOfInfo();
 			sp.toggleInfoPane();
+			$('#patternName').html('<a style=\"color:' + sp.shade +'\" href=\"' + sp.patternUrl + '\"">' + sp.patternName.replace(".png", "") + '<\a>');
 		});
-		$('#patternName').html('<a style=\"color:' + sp.darkShade +'\" href=\"' + sp.patternUrl + '\"">' + sp.patternName.replace(".png", "") + '<\a>');
-	    // $('.window').css('box-shadow', 'inset 0 0 1280px 2px ' + getDarkShade() );
 
 	    sp.setColorsOfWindow();
 
+	    //-- start the clock
 	    sp.refreshHands();
 	    sp.startClock();
 
  	},
  	//-----------------------------------------------
 
- 	invisClick: function() {
- 		$('.invis').click( function() {
-			if(sp.isPaneUp) sp.toggleInfoPane();
-		});
-	},
-	//-----------------------------------------------
+ // 	invisClick: function() {
+ // 		$('.invis').click( function() {
+	// 		if(sp.isPaneUp) sp.toggleInfoPane();
+	// 	});
+	// },
 
+	//-----------------------------------------------
 	displayImages: function() {
 		sp.bg.load( function() {
 		    $('body').css('background-image', 'url(' + sp.patternUrl +')'); //-- set the background
@@ -68,10 +73,10 @@ var sp = {
 
 	//-----------------------------------------------
 	setColorsOfInfo: function() {
-		$('#infoPane').css('background-color', sp.lightShade);
-		$('#infoPane').css('box-shadow', '2px 2px 10px ' + sp.darkShade);
-		$('#infoPane').css('color', '' + sp.darkShade);
-		$('.info > h1').css('border-bottom', '1px solid ' + sp.darkShade );
+		$('#infoPane').css('background-color', sp.tint);
+		$('#infoPane').css('box-shadow', '2px 2px 10px ' + sp.shade);
+		$('#infoPane').css('color', '' + sp.shade);
+		$('.info > h1').css('border-bottom', '1px solid ' + sp.shade );
 	},
 
 	//-----------------------------------------------
@@ -94,16 +99,34 @@ var sp = {
 
 	//-----------------------------------------------
 	setColorsOfWindow: function() {
-		$('#source').text( sp.darkShade ); //-- set text to display the hex
-	    $('#source').css('color', sp.darkShade ); //-- set text's color to a dark shade
-	    $('#source').css('text-shadow', '1px 2px 2px ' + sp.lightShade ); //-- letterpress it properly
-	    $('#moreInfoBtn').css('background-color', sp.darkShade ); //-- set color of info button
-	    $('#moreInfoBtn').css('color', sp.lightShade ); //-- set color of the info text
+		// $('#source').text( sp.shade ); //-- set text to display the hex
+	 //    $('#source').css('color', sp.shade ); //-- set text's color to a dark shade
+	 //    $('#source').css('text-shadow', '1px 2px 2px ' + sp.tint ); //-- letterpress it properly
+	    $('#moreInfoBtn').css('background-color', sp.shade ); //-- set color of info button
+	    $('#moreInfoBtn').css('color', sp.tint ); //-- set color of the info text
 	},
 
 	//-----------------------------------------------
-	getDarkShade: function() {
-		var lum = Math.floor(sp.index/sp.patterns.length * 255);
+	getLuminance: function() {
+		//Math.floor(sp.index/sp.patterns.length * 255); //-- assumes uniform distribution
+
+		//-- not uniform distribution, approximated with lines
+		if(sp.index < 90) {
+			return Math.floor(61*(sp.index-1)/89);
+		} else if (sp.index >113) {
+			return Math.floor((sp.index+954)/5);
+		} else {
+			return Math.floor((152*sp.index-12277)/23);
+		}
+	},
+
+	//-----------------------------------------------
+	//-- returns an approximate shade (a color that's darker) of the average of the background
+	getShade: function() {
+		var lum = sp.getLuminance();
+		if(sp.index < 50) {
+			return '#000';
+		}
 		for (var i = 0.6; i <= 0.9; i+=0.1) {
 			if (lum*i > 0) {
 				lum = Math.floor(lum * i);
@@ -116,8 +139,10 @@ var sp = {
 	},
 
 	//-----------------------------------------------
-	getLightShade: function()  {
-		var lum = Math.floor(sp.index/sp.patterns.length * 255);
+	//-- returns an approximate tint (a color that's lighter) of the average of the background
+	getTint: function()  {
+		var lum = sp.getLuminance();
+		if(sp.index < 50) return '#ddd';
 		if(lum > 150) return '#fff';
 		for (var i = 2.0; i >= 1.0; i-=0.2) {
 			if (lum * i < 255) {
@@ -130,6 +155,17 @@ var sp = {
 		return '#' + lum.toString(16) + lum.toString(16) + lum.toString(16);
 	},
 
+	changeToDark: function() {
+		$('#clock-min > img').attr('src', 'img/clock-minhand-dark.png');
+		$('#clock-hour > img').attr('src', 'img/clock-hourhand-dark.png');
+		$('#clock-outer > img').attr('src', 'img/clock-outer-dark.png');
+	},
+
+	//-----------------------------------------------
+	// Set interval timeout to update the hands in the future
+	startClock: function() {
+		setInterval(function(){sp.refreshHands();},sp.updateDelay);
+	},
 	//-----------------------------------------------
 	// Check the time and display the clock
 	refreshHands: function() {
@@ -145,21 +181,15 @@ var sp = {
 		}
 	},
 	//-----------------------------------------------
-	// Set timeout to trigger a tick in the future
-	startClock: function() {
-		setInterval(function(){sp.refreshHands();},sp.minDelay);
-	},
-	//-----------------------------------------------
 	// rotate the hands' elements accordingly
 	renderHands: function(hour, min, sec) {
-		var hourAngle = (hour%12) * 30 + (min/2); //-- h/12*360deg + m/60*30deg
-		var minAngle = min*6 + sec/12; //-- m/60*360deg + s/60*5deg
+		var hourAngle = (hour%12) * 30 + (min/2); //= h/12*360deg + m/60*30deg
+		var minAngle = min*6 + sec/12; //= m/60*360deg + s/60*5deg
 		$('#clock-min').css('transform', 'rotate(' + minAngle + 'deg)');
 		$('#clock-hour').css('transform', 'rotate(' + hourAngle + 'deg)');
 	}
 
 };
-
 
 $(function(){
 	sp.init();
