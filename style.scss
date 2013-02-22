@@ -27,37 +27,27 @@ $clock_height: 420px;
 	margin-left: -$el_width/2;
 	left: 50%;
 	top: 50%;
+	padding:0;
 }
 
 body {
 	opacity:0;
 	background-color: $default-bg-color;
 	background-image: none;
+	padding:0;
+	margin:0;
 }
 
 .window {
 	opacity:0;
 	@include full-screen;
+	padding:0;
+	margin:0;
+
 }
 
-.invis {
-	@include full-screen;
-}
-
-
-#source {
-	width:100%;
-	position:absolute;
-	text-align: center;
-	font-family: Helvetica;
-	text-decoration: none;
-	margin: 0 auto;
-	margin-top:200px;
-	opacity: $default-opacity;
-	color: black;
-	font-size: 128px;
-	font-weight: bold;
- 	text-shadow: 0px 3px 3px #fff;
+.invis > img {
+	display:none;
 }
 
 
@@ -119,16 +109,19 @@ body {
 
 #clock-outer{
 	@include centered($clock_width, $clock_height);
+	user-select:none;
 }
 
 #clock-hour{
 	@include centered($clock_width, $clock_height);
 	-webkit-transition: all 1s;
+	user-select:none;
 }
 
 #clock-min{
 	@include centered($clock_width, $clock_height);
 	-webkit-transition: all 1s; 
+	user-select:none;
 
 }
 
