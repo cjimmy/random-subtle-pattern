@@ -34,7 +34,8 @@ body {
   text-decoration: none; }
   #moreInfoBtn:hover {
     -webkit-transition: opacity 0.3s;
-    opacity: 0.9; }
+    opacity: 0.9;
+    cursor: pointer; }
   #moreInfoBtn:active {
     border: 1px #555555;
     opacity: 0.5; }
@@ -54,22 +55,40 @@ body {
 .info {
   font-family: Georgia, serif;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 25.88px;
   font-weight: lighter;
-  padding: 20px 40px 10px 100px; }
+  padding: 20px 30px 10px 100px; }
 
 .info > h1 {
   font-family: Helvetica, sans-serif;
-  font-size: 30px;
+  font-size: 41.88px;
   font-weight: bold;
-  border-bottom: 1px solid #dddddd;
-  padding-bottom: 14px; }
+  margin-bottom: 10px;
+  /*border-bottom: 1px solid #ddd;*/
+  padding-bottom: 25.88px;
+  -webkit-font-smoothing: antialiased; }
 
 .info > a {
   color: inherit;
   text-decoration: underline; }
   .info > a:hover {
     text-decoration: none; }
+
+#patternName:hover {
+  text-decoration: none; }
+
+#closeX {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  opacity: 0.5; }
+  #closeX:hover {
+    -webkit-transition: opacity 0.3s;
+    opacity: 0.9;
+    cursor: pointer; }
+  #closeX:active {
+    border: 1px #555555;
+    opacity: 0.5; }
 
 #clock-outer {
   position: absolute;
@@ -105,3 +124,24 @@ body {
   padding: 0;
   -webkit-transition: all 1s;
   user-select: none; }
+
+#clockEnableBtn {
+  position: absolute;
+  bottom: 10px;
+  padding: 0 5px;
+  border-left: 4px solid black;
+  border-bottom: 1px solid black;
+  -webkit-transition: border 0.3s ease-out; }
+  #clockEnableBtn:hover {
+    cursor: pointer; }
+  #clockEnableBtn:active {
+    opacity: 0.5; }
+
+#clockEnableBtnOverlay {
+  position: absolute;
+  bottom: 10px;
+  width: 4px;
+  height: 30px;
+  background-color: black;
+  background-opacity: 0.5;
+  -webkit-transition: width 0.3s ease-out; }

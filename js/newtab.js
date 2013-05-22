@@ -31,7 +31,7 @@ var sp = {
  		sp.displayImages(); //-- bind animation on load
 		$('#invis > img').attr('src', sp.patternUrl);
 
-		if(sp.index > 140) sp.changeToDark(); //-- 140 determined with 
+		if(sp.index > 140) sp.changeToDark(); //-- 140 determined with ordering via python
 
 		$('#moreInfoBtn').click( function(){ //--bind click function
 			sp.setColorsOfInfo();
@@ -39,11 +39,20 @@ var sp = {
 			$('#patternName').html('<a style=\"color:' + sp.shade +'\" href=\"' + sp.patternUrl + '\"">' + sp.patternName.replace(".png", "") + '<\a>');
 		});
 
+		$('#closeX').click( function() {
+			sp.isPaneUp = true;
+			sp.toggleInfoPane();
+		});
+
 	    sp.setColorsOfWindow();
 
 	    //-- start the clock
 	    sp.refreshHands();
 	    sp.startClock();
+
+		$('#clockEnableBtn').click( function() {
+			sp.toggleClock();
+		});
 
  	},
 
@@ -147,9 +156,10 @@ var sp = {
 	},
 
 	changeToDark: function() {
-		$('#clock-min > img').attr('src', 'img/clock-minhand-dark.png');
-		$('#clock-hour > img').attr('src', 'img/clock-hourhand-dark.png');
-		$('#clock-outer > img').attr('src', 'img/clock-outer-dark.png');
+		$('#clock-min > img').attr('src', 'img/clock-minhand-dark@2x.png');
+		$('#clock-hour > img').attr('src', 'img/clock-hourhand-dark@2x.png');
+		$('#clock-outer > img').attr('src', 'img/clock-outer-dark@2x.png');
+		$('#closeX > img').attr('src', 'img/close-light.png');
 	},
 
 	//-----------------------------------------------
@@ -178,10 +188,65 @@ var sp = {
 		var minAngle = min*6 + sec/12; //= m/60*360deg + s/60*5deg
 		$('#clock-min').css('transform', 'rotate(' + minAngle + 'deg)');
 		$('#clock-hour').css('transform', 'rotate(' + hourAngle + 'deg)');
+	},
+	//-----------------------------------------------
+	toggleClock: function() {
+		var setting = localStorage["clock_enable"];
+		setting = (setting == 'on') ? 'off' : 'on'; 
+		
+		localStorage["clock_enable"] = setting;
+
+		if(setting == 'on') this.showClock();
+		else this.hideClock();
+
+	},
+	//-----------------------------------------------
+	showClock: function() {
+		$('#clock-min').show();
+		$('#clock-hour').show();
+		$('#clock-outer').show();
+		$('#clockEnableBtn').html("Hide clock");
+		$('#clockEnableBtnOverlay').css('width', '4px');
+
+		
+	},
+	//-----------------------------------------------
+	hideClock: function() {
+		$('#clock-min').hide();
+		$('#clock-hour').hide();
+		$('#clock-outer').hide();
+		$('#clockEnableBtn').html("Show clock");
+		$('#clockEnableBtnOverlay').css('width', '50px');
+		
+	},
+
+	//-----------------------------------------------
+	// Restores select box state to saved value from localStorage.
+	restore_options: function() {
+	  var clock_enable = localStorage["clock_enable"];
+	  if (!clock_enable) { //-- if null
+	    return;
+	  }
+	  //-- set clock visibility to whatever is in localStorage.
+	  if(clock_enable == 'on') this.showClock();
+	  else this.hideClock();
 	}
 
 };
 
+
 $(function(){
+	sp.restore_options();
 	sp.init();
+
 });
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-38720902-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = 'https://ssl.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();

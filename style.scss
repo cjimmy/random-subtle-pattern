@@ -11,6 +11,8 @@ $info_pane_height: 486px;
 $clock_width: 420px;
 $clock_height: 420px;
 
+$border_radius: 10px;
+
 @mixin full-screen{
 	position: absolute;
 	top: 0;
@@ -28,6 +30,18 @@ $clock_height: 420px;
 	left: 50%;
 	top: 50%;
 	padding:0;
+}
+
+@mixin buttonHoverAnimation {
+	&:hover {
+		-webkit-transition: opacity 0.3s;
+		opacity: 0.9;
+		cursor: pointer;
+	}
+	&:active {
+		border:1px #555;
+		opacity: 0.5;
+	}
 }
 
 body {
@@ -58,21 +72,13 @@ body {
 	position: fixed;
 	right:10px;
 	bottom:10px;
-	border-radius: 10px;
+	border-radius: $border_radius;
 
 	padding: 6px 13px;
 	font-size:15px;
 	text-decoration:none;
 
-	&:hover {
-		-webkit-transition: opacity 0.3s;
-		opacity: 0.9;
-	}
-
-	&:active {
-		border:1px #555;
-		opacity: 0.5;
-	}
+	@include buttonHoverAnimation;
 }
 
 #infoPane {
@@ -83,19 +89,21 @@ body {
 
 
 .info {
-  font-family: Georgia, serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: lighter;
-  padding: 20px 40px 10px 100px;
+	  font-family: Georgia, serif;
+	  font-size: 16px;
+	  line-height: 25.88px;
+	  font-weight: lighter;
+	  padding: 20px 30px 10px 100px;
 }
 	
 .info> h1 {
 	font-family: Helvetica, sans-serif;
-	font-size: 30px;
+	font-size: 41.88px;
 	font-weight: bold;
-	border-bottom: 1px solid #ddd;
-	padding-bottom: 14px;
+	margin-bottom: 10px;
+	/*border-bottom: 1px solid #ddd;*/
+	padding-bottom: 25.88px;
+	-webkit-font-smoothing: antialiased;
 	}
 
 .info> a {
@@ -105,6 +113,21 @@ body {
 	&:hover {
 		text-decoration:none;
 	}
+}
+
+#patternName {
+	&:hover {
+		text-decoration:none;
+	}
+}
+
+#closeX {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	opacity: $default-opacity;  
+
+	@include buttonHoverAnimation;
 }
 
 #clock-outer{
@@ -122,6 +145,36 @@ body {
 	@include centered($clock_width, $clock_height);
 	-webkit-transition: all 1s; 
 	user-select:none;
-
 }
+#clockEnableBtn {
+	position: absolute;
+	bottom:10px;
+	padding: 0 5px; 
+	border-left: 4px solid black;
+	border-bottom:1px solid black;
+	// border-radius: 10px;
+	-webkit-transition: border 0.3s ease-out;
+	
+
+	&:hover {
+		// border-left: 20px solid black;
+		cursor: pointer;
+	}
+	&:active {
+		opacity: 0.5;
+	}
+	
+}
+
+#clockEnableBtnOverlay {
+	position:absolute;
+	bottom: 10px;
+	width: 4px;
+	height: 30px;
+	background-color:black;
+	background-opacity:$default-opacity;
+
+	-webkit-transition: width 0.3s ease-out;
+}
+
 
