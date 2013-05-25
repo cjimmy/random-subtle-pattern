@@ -1,6 +1,3 @@
-/*general*/
-/*info pane*/
-/*clock*/
 body {
   opacity: 0;
   background-color: white;
@@ -44,27 +41,25 @@ body {
   opacity: 0;
   border-radius: 3px;
   position: absolute;
-  width: 486px;
-  height: 486px;
-  margin-top: -243px;
-  margin-left: -243px;
+  width: 468px;
+  height: 468px;
+  margin-top: -234px;
+  margin-left: -234px;
   left: 50%;
   top: 50%;
   padding: 0; }
 
 .info {
-  font-family: Georgia, serif;
+  font-family: Georgia, Arial, "sans-serif";
   font-size: 16px;
-  line-height: 25.88px;
+  line-height: 24px;
   font-weight: lighter;
-  padding: 20px 30px 10px 100px; }
+  padding: 30px 30px 20px 100px; }
 
 .info > h1 {
-  font-family: Helvetica, sans-serif;
-  font-size: 41.88px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  /*border-bottom: 1px solid #ddd;*/
+  font-family: Helvetica, "sans-serif";
+  font-size: 37.89px;
+  margin-bottom: 0;
   padding-bottom: 25.88px;
   -webkit-font-smoothing: antialiased; }
 
@@ -74,19 +69,16 @@ body {
   .info > a:hover {
     text-decoration: none; }
 
-#patternName:hover {
-  text-decoration: none; }
-
-#closeX {
+#closeX > img {
   position: absolute;
-  right: 10px;
   top: 10px;
+  right: 10px;
   opacity: 0.5; }
-  #closeX:hover {
+  #closeX > img:hover {
     -webkit-transition: opacity 0.3s;
     opacity: 0.9;
     cursor: pointer; }
-  #closeX:active {
+  #closeX > img:active {
     border: 1px #555555;
     opacity: 0.5; }
 
@@ -99,6 +91,8 @@ body {
   left: 50%;
   top: 50%;
   padding: 0;
+  -webkit-user-select: none;
+  user-select: none;
   user-select: none; }
 
 #clock-hour {
@@ -110,6 +104,8 @@ body {
   left: 50%;
   top: 50%;
   padding: 0;
+  -webkit-user-select: none;
+  user-select: none;
   -webkit-transition: all 1s;
   user-select: none; }
 
@@ -122,6 +118,8 @@ body {
   left: 50%;
   top: 50%;
   padding: 0;
+  -webkit-user-select: none;
+  user-select: none;
   -webkit-transition: all 1s;
   user-select: none; }
 
@@ -129,19 +127,16 @@ body {
   position: absolute;
   bottom: 10px;
   padding: 0 5px;
-  border-left: 4px solid black;
-  border-bottom: 1px solid black;
+  font-family: Helvetica;
   -webkit-transition: border 0.3s ease-out; }
   #clockEnableBtn:hover {
     cursor: pointer; }
-  #clockEnableBtn:active {
-    opacity: 0.5; }
 
 #clockEnableBtnOverlay {
   position: absolute;
   bottom: 10px;
-  width: 4px;
-  height: 30px;
-  background-color: black;
-  background-opacity: 0.5;
-  -webkit-transition: width 0.3s ease-out; }
+  width: 25px;
+  height: 25.88px;
+  opacity: 0.5;
+  border-radius: 2px;
+  -webkit-transition: all 0.1s ease-out; }

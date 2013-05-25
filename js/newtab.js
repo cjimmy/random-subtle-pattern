@@ -31,20 +31,26 @@ var sp = {
  		sp.displayImages(); //-- bind animation on load
 		$('#invis > img').attr('src', sp.patternUrl);
 
+	    sp.setColorsOfWindow();
 		if(sp.index > 140) sp.changeToDark(); //-- 140 determined with ordering via python
 
-		$('#moreInfoBtn').click( function(){ //--bind click function
+		//-- actions to open pane
+		$('#moreInfoBtn').click( function(){
 			sp.setColorsOfInfo();
 			sp.toggleInfoPane();
 			$('#patternName').html('<a style=\"color:' + sp.shade +'\" href=\"' + sp.patternUrl + '\"">' + sp.patternName.replace(".png", "") + '<\a>');
 		});
 
+		//-- actions to close pane
 		$('#closeX').click( function() {
-			sp.isPaneUp = true;
-			sp.toggleInfoPane();
+			sp.hideInfoPane();
+		});
+		$('body').keydown(function (e) {
+		    if(e.which == 27) {
+		    	sp.hideInfoPane();
+		    }
 		});
 
-	    sp.setColorsOfWindow();
 
 	    //-- start the clock
 	    sp.refreshHands();
@@ -53,6 +59,8 @@ var sp = {
 		$('#clockEnableBtn').click( function() {
 			sp.toggleClock();
 		});
+
+		
 
  	},
 
@@ -76,8 +84,11 @@ var sp = {
 		$('#infoPane').css('background-color', sp.tint);
 		$('#infoPane').css('box-shadow', '2px 2px 10px ' + sp.shade);
 		$('#infoPane').css('color', '' + sp.shade);
-		$('.info > h1').css('border-bottom', '1px solid ' + sp.shade );
+		// $('.info > h1').css('border-bottom', '1px solid ' + sp.shade );
+		$('#clockEnableBtnOverlay').css('background-color', sp.shade);
 	},
+
+
 
 	//-----------------------------------------------
 	toggleInfoPane: function() {
@@ -93,23 +104,25 @@ var sp = {
 				opacity: 1.0
 				}, 200, function() {
 			});
+
 		}
 		sp.isPaneUp = sp.isPaneUp ? false : true;
 	},
 
 	//-----------------------------------------------
+	hideInfoPane: function() {
+		sp.isPaneUp = true;
+		sp.toggleInfoPane();
+	},
+
+	//-----------------------------------------------
 	setColorsOfWindow: function() {
-		// $('#source').text( sp.shade ); //-- set text to display the hex
-	 //    $('#source').css('color', sp.shade ); //-- set text's color to a dark shade
-	 //    $('#source').css('text-shadow', '1px 2px 2px ' + sp.tint ); //-- letterpress it properly
 	    $('#moreInfoBtn').css('background-color', sp.shade ); //-- set color of info button
 	    $('#moreInfoBtn').css('color', sp.tint ); //-- set color of the info text
 	},
 
 	//-----------------------------------------------
 	getLuminance: function() {
-		//Math.floor(sp.index/sp.patterns.length * 255); //-- assumes uniform distribution
-
 		//-- not uniform distribution, approximated with lines
 		if(sp.index < 90) {
 			return Math.floor(61*(sp.index-1)/89);
@@ -154,21 +167,22 @@ var sp = {
 		}
 		return '#' + lum.toString(16) + lum.toString(16) + lum.toString(16);
 	},
-
+	//-----------------------------------------------
+	//-- if needed, changes the assests to the Dark theme
 	changeToDark: function() {
 		$('#clock-min > img').attr('src', 'img/clock-minhand-dark@2x.png');
 		$('#clock-hour > img').attr('src', 'img/clock-hourhand-dark@2x.png');
 		$('#clock-outer > img').attr('src', 'img/clock-outer-dark@2x.png');
-		$('#closeX > img').attr('src', 'img/close-light.png');
 	},
 
 	//-----------------------------------------------
-	// Set interval timeout to update the hands in the future
+	//-- Set interval timeout to update the hands in the future
 	startClock: function() {
 		setInterval(function(){sp.refreshHands();},sp.updateDelay);
 	},
+
 	//-----------------------------------------------
-	// Check the time and display the clock
+	//-- Check the time and display the clock
 	refreshHands: function() {
 		var now = new Date();
 		if (sp.gmtOffset != null) {
@@ -182,14 +196,16 @@ var sp = {
 		}
 	},
 	//-----------------------------------------------
-	// rotate the hands' elements accordingly
+	//-- rotate the hands' elements accordingly
 	renderHands: function(hour, min, sec) {
 		var hourAngle = (hour%12) * 30 + (min/2); //= h/12*360deg + m/60*30deg
 		var minAngle = min*6 + sec/12; //= m/60*360deg + s/60*5deg
 		$('#clock-min').css('transform', 'rotate(' + minAngle + 'deg)');
 		$('#clock-hour').css('transform', 'rotate(' + hourAngle + 'deg)');
 	},
+
 	//-----------------------------------------------
+	//-- toggles show/hide clock and stores it in localStorage
 	toggleClock: function() {
 		var setting = localStorage["clock_enable"];
 		setting = (setting == 'on') ? 'off' : 'on'; 
@@ -201,27 +217,34 @@ var sp = {
 
 	},
 	//-----------------------------------------------
+	//-- shows the clock and adjusts button
 	showClock: function() {
 		$('#clock-min').show();
 		$('#clock-hour').show();
 		$('#clock-outer').show();
-		$('#clockEnableBtn').html("Hide clock");
-		$('#clockEnableBtnOverlay').css('width', '4px');
+		var paddingL = $('.info').css('padding-left');
+		paddingL = parseInt(paddingL.replace('px',''));
+		paddingL = (paddingL+57).toString().concat('px');
+		$('#clockEnableBtnOverlay').css('left', paddingL);
+		$('#clockEnableBtnOverlay').css('width', '30px');
 
-		
 	},
 	//-----------------------------------------------
+	//-- hides the clock and adjusts button
 	hideClock: function() {
 		$('#clock-min').hide();
 		$('#clock-hour').hide();
 		$('#clock-outer').hide();
-		$('#clockEnableBtn').html("Show clock");
-		$('#clockEnableBtnOverlay').css('width', '50px');
+		var paddingL = $('.info').css('padding-left');
+		paddingL = parseInt(paddingL.replace('px',''));
+		paddingL = (paddingL+85).toString().concat('px');
+		$('#clockEnableBtnOverlay').css('left', paddingL);
+		$('#clockEnableBtnOverlay').css('width', '34px');
 		
 	},
 
 	//-----------------------------------------------
-	// Restores select box state to saved value from localStorage.
+	//-- Restores options' states to saved value from localStorage.
 	restore_options: function() {
 	  var clock_enable = localStorage["clock_enable"];
 	  if (!clock_enable) { //-- if null
@@ -236,8 +259,8 @@ var sp = {
 
 
 $(function(){
-	sp.restore_options();
 	sp.init();
+	sp.restore_options();
 
 });
 

@@ -4,14 +4,16 @@ $default-bg-color: #fff;
 $default-opacity: 0.5;
 
 /*info pane*/
-$info_pane_width: 486px;
-$info_pane_height: 486px;
+$info_pane_width: 468px;
+$info_pane_height: 468px;
 
 /*clock*/
 $clock_width: 420px;
 $clock_height: 420px;
 
 $border_radius: 10px;
+
+$clock_enable_bottom: 10px;
 
 @mixin full-screen{
 	position: absolute;
@@ -42,6 +44,11 @@ $border_radius: 10px;
 		border:1px #555;
 		opacity: 0.5;
 	}
+}
+
+@mixin unselectable {
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 body {
@@ -89,24 +96,23 @@ body {
 
 
 .info {
-	  font-family: Georgia, serif;
-	  font-size: 16px;
-	  line-height: 25.88px;
-	  font-weight: lighter;
-	  padding: 20px 30px 10px 100px;
+	font-family: Georgia, Arial, 'sans-serif';
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: lighter;
+	padding: 30px 30px 20px 100px;
 }
 	
 .info> h1 {
-	font-family: Helvetica, sans-serif;
-	font-size: 41.88px;
-	font-weight: bold;
-	margin-bottom: 10px;
-	/*border-bottom: 1px solid #ddd;*/
+	font-family: Helvetica, 'sans-serif';
+	font-size: 37.89px;
+	margin-bottom:0;
 	padding-bottom: 25.88px;
 	-webkit-font-smoothing: antialiased;
 	}
 
-.info> a {
+
+.info>  a {
 	color: inherit;
 	text-decoration: underline;
 
@@ -115,16 +121,16 @@ body {
 	}
 }
 
-#patternName {
-	&:hover {
-		text-decoration:none;
-	}
-}
+// #patternName {
+// 	&:hover {
+// 		text-decoration:none;
+// 	}
+// }
 
-#closeX {
+#closeX> img {
 	position: absolute;
-	right: 10px;
 	top: 10px;
+	right: 10px;
 	opacity: $default-opacity;  
 
 	@include buttonHoverAnimation;
@@ -132,49 +138,47 @@ body {
 
 #clock-outer{
 	@include centered($clock_width, $clock_height);
+	@include unselectable;
 	user-select:none;
 }
 
 #clock-hour{
 	@include centered($clock_width, $clock_height);
+	@include unselectable;
 	-webkit-transition: all 1s;
 	user-select:none;
 }
 
 #clock-min{
 	@include centered($clock_width, $clock_height);
+	@include unselectable;
 	-webkit-transition: all 1s; 
 	user-select:none;
 }
 #clockEnableBtn {
 	position: absolute;
-	bottom:10px;
+	bottom:$clock_enable_bottom;
 	padding: 0 5px; 
-	border-left: 4px solid black;
-	border-bottom:1px solid black;
-	// border-radius: 10px;
+	font-family: Helvetica;
 	-webkit-transition: border 0.3s ease-out;
 	
-
 	&:hover {
-		// border-left: 20px solid black;
 		cursor: pointer;
 	}
-	&:active {
-		opacity: 0.5;
-	}
+
 	
 }
 
 #clockEnableBtnOverlay {
 	position:absolute;
-	bottom: 10px;
-	width: 4px;
-	height: 30px;
-	background-color:black;
-	background-opacity:$default-opacity;
+	bottom: $clock_enable_bottom;
+	width: 25px;
+	height: 25.88px;
+	opacity: $default-opacity;
+	border-radius: 2px;
 
-	-webkit-transition: width 0.3s ease-out;
+	-webkit-transition: all 0.1s ease-out;
 }
+
 
 
