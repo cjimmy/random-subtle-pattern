@@ -51,14 +51,14 @@ var sp = {
 		    }
 		});
 
+		$('#clockEnableBtn').click( function() {
+			sp.toggleClock();
+		});
 
 	    //-- start the clock
 	    sp.refreshHands();
 	    sp.startClock();
 
-		$('#clockEnableBtn').click( function() {
-			sp.toggleClock();
-		});
 
 		
 
