@@ -4,9 +4,11 @@
 
   "name": "Random Subtle Patterns",
   "description": "This extension shows a new Subtle Pattern on a new tab.",
-  "version": "0.3.2",
+  "version": "0.3.5",
+  "permissions": ["alarms"],
+
   "icons": {  "16": "icons/icon16.png",
-              "48": "icons/icon48.png",
+              "48": "icons/icon48.png"5
               "128": "icons/icon128.png" },
   "chrome_url_overrides" : {
     "newtab": "newtab.html"

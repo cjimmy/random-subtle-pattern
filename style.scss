@@ -89,7 +89,7 @@ body {
 }
 
 #infoPane {
-	opacity: 0;
+	// opacity: 0;
 	border-radius: 3px;
 	@include centered($info_pane_width, $info_pane_height);
 }
@@ -180,5 +180,37 @@ body {
 	-webkit-transition: all 0.1s ease-out;
 }
 
+
+.animated{-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-duration:0.7s;-moz-animation-duration:0.7s;-ms-animation-duration:0.7s;-o-animation-duration:0.7s;animation-duration:0.7s;}.
+
+@-webkit-keyframes fadeInDown {
+  0% {
+    opacity:
+   0;
+    -webkit-transform: translateY(-20px);
+  }
+  
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
 
 
